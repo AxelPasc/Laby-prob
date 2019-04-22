@@ -1,0 +1,453 @@
+// *** Déclaration et Initialisation des variables *** 
+//===================================================== 
+// dimensions de la bordure et du côté des carrés de quadrillage 
+int cote = 40; 
+int bordure = 20; 
+PImage back;
+//PImage texture;
+PImage perso;
+PImage porte;
+PImage fin;
+PImage clef;
+int deplacementGauche =0;
+int deplacementDroite =0;
+int deplacementHaut =0;
+int deplacementBas =0;
+int x=1;
+int y=1;
+int debut=0;
+int points = 0;
+int health=300;
+int sante;
+int greenx;
+int res;
+int tableau = 0;
+int maptwo;
+int value = 0;
+int etat;
+PImage lobby;
+int o;
+
+//test
+boolean etats;
+String mot;
+
+//int redx =  0;
+// Création du labyrinthe à l'aide d'un tableau:  
+//Attention saisie faite colonne par colonne 
+ 
+
+int[][]map ={{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+  {1, 3, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1}, 
+  {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1}, 
+  {1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1}, 
+  {1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1}, 
+  {1, 1, 1, 0, 0, 1, 1, 1, 5, 1, 1, 0, 0, 0, 1, 1}, 
+  {1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1}, 
+  {1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1}, 
+  {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1}, 
+  {1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1}, 
+  {1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1}, 
+  {1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 1}, 
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
+
+
+int[][]map2 ={{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+  {1, 3, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1}, 
+  {1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1}, 
+  {1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1}, 
+  {1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1}, 
+  {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1}, 
+  {1, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 1}, 
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
+
+
+
+
+void setup() { 
+  size(1920, 1080); 
+  etat=0;
+  lobby = loadImage("fdj.png");
+  back = loadImage("back.jpg"); 
+  
+
+  
+  // texture = loadImage("texture.jpg");
+  perso = loadImage ("perso.png");
+  porte = loadImage ("porte.png");
+  fin = loadImage ("fin.png");
+  clef = loadImage ("clef.jpg");
+  //fullScreen(); 
+  noLoop();
+} 
+
+void draw() { 
+  
+   
+    
+  if (etat==0) {
+    
+  background(lobby);
+  //fill(0);
+  //rect(860,550,400,150);
+  }
+
+if(etat==1){
+debut = 2;
+value=2;
+  
+}
+redraw();
+  
+
+  
+ if (debut ==2 ||debut ==4  ) {
+   
+
+  background(back); 
+  fill(#FFFFFF); 
+  rect(bordure, bordure, 14*cote, 14*cote); 
+  fill(#340000);
+  rect(600, 100, 100, 50);
+  fill(#9B9965);
+  textSize(30);
+  text("Clef :"+points, 603, 140);
+  fill(#FF0000);
+  rect(600, 50, 300, 15);
+  fill(#00FF0E);
+  rect(600, 50, health, 15);
+  // fill(#FF0000);
+  // rect(900,50,-100,15);
+ }
+ 
+
+ 
+
+
+
+  if (debut == 2) {
+
+ 
+    if ( deplacementGauche == 2 ) {
+      if  ( map [x-1][y] == 0 || map [x-1][y] == 5 || map [x-1][y] == 8) {
+        if (map [x-1][y] == 8)
+          res = 8;
+        map [x-1][y] = 3;
+        map [x][y] = 0;
+        x=x-1;
+      }
+      deplacementGauche = 0;
+    }
+
+    if ( deplacementDroite == 2 ) {
+      if  ( map [x+1][y] == 0 || map [x+1][y] == 5 || map [x+1][y] == 2) {
+        map [x+1][y] = 3;
+        map [x][y] = 0;
+        x=x+1;
+      }
+      deplacementDroite = 0;
+    }
+
+    if ( deplacementHaut == 2 ) {
+      if  ( map [x][y-1] == 0 || map [x][y-1] == 5 || map [x][y-1] == 8) {
+        map [x][y-1] = 3;
+        map[x][y] = 0;
+        y=y-1;
+      }
+
+      deplacementHaut = 0;
+    }
+
+
+    if ( deplacementBas ==2) {
+      if  ( map [x][y+1] == 0 || map [x][y+1] == 2 || map [x][y+1] == 5 ) {
+        map [x][y+1] = 3;
+        map [x][y] = 0;
+        y=y+1;
+      }
+      deplacementBas = 0;
+    }
+    
+    if  ( x==13 && y==13) {
+    debut=4;
+   
+  }
+    
+    
+  }
+
+  if ( map [x][y+1] == 5 || map [x][y-1] == 5 || map [x+1][y] == 5 || map [x-1][y] == 5 ) {
+
+    points = points +1;
+  }
+
+
+  if ( map [x][y+1] == 0 || map [x][y-1] == 0 || map [x+1][y] == 0 || map [x-1][y] == 0 ) {
+    health = 300 -(greenx +3);
+    if ( health ==-3 ) {
+      debut = 1;
+      println("RESTART ?");
+    }
+  }
+
+  if ( res == 8) {
+    debut =1;
+  }
+  
+  
+
+
+  if (debut == 4) {
+
+    if ( deplacementGauche == 2 ) {
+      if  ( map2 [x-1][y] == 0 || map2 [x-1][y] == 5 || map2 [x-1][y] == 8) {
+        if (map2 [x-1][y] == 8)
+          res = 8;
+        map2 [x-1][y] = 3;
+        map2 [x][y] = 0;
+        x=x-1;
+      }
+      deplacementGauche = 0;
+    }
+
+    if ( deplacementDroite == 2 ) {
+      if  ( map2 [x+1][y] == 0 || map2 [x+1][y] == 5) {
+        map2 [x+1][y] = 3;
+        map2 [x][y] = 0;
+        x=x+1;
+      }
+      deplacementDroite = 0;
+    }
+
+    if ( deplacementHaut == 2 ) {
+      if  ( map2 [x][y-1] == 0 || map2 [x][y-1] == 5 || map2 [x][y-1] == 8) {
+        map2 [x][y-1] = 3;
+        map2[x][y] = 0;
+        y=y-1;
+      }
+
+      deplacementHaut = 0;
+    }
+
+
+    if ( deplacementBas ==2) {
+      if  ( map2 [x][y+1] == 0 || map2 [x][y+1] == 2 || map2 [x][y+1] == 5 ) {
+        map2 [x][y+1] = 3;
+        map2 [x][y] = 0;
+        y=y+1;
+      }
+      deplacementBas = 0;
+    }
+  }
+
+  if ( map2 [x][y+1] == 5 || map2 [x][y-1] == 5 || map2 [x+1][y] == 5 || map2 [x-1][y] == 5 ) {
+
+    points = points +1;
+  }
+
+
+  if ( map2 [x][y+1] == 0 || map2 [x][y-1] == 0 || map2 [x+1][y] == 0 || map2 [x-1][y] == 0 ) {
+    greenx = greenx +3;
+  }
+
+
+  if (debut == 2) {
+    fill(0); 
+    for (int j=0; j<15; j=j+1) { 
+      for (int i=0; i<14; i=i+1) { 
+        if ( map[i][j]==1) { 
+          rect(bordure + cote*i, bordure+cote*j, 40, 40);
+        }
+        if ( map[i][j]==3) {
+
+          //rect(bordure + cote*i, bordure+cote*j, 40, 40);
+          image(perso, bordure + cote*i, bordure+cote*j, 40, 40);
+        }
+      }
+    }
+
+
+    fill(#E50000);
+    for (int k=0; k<15; k=k+1) {
+      for (int i=0; i<14; i=i+1) {
+        if ( map[i][k]==2) {
+
+          rect( bordure + cote*i, bordure+cote*k, 40, 40); 
+          image(porte, bordure + cote*i, bordure+cote*k, 40, 40);
+        }
+      }
+    }
+
+    for (int k=0; k<15; k=k+1) {
+      for (int i=0; i<14; i=i+1) {
+        if ( map[i][k]==5) {
+
+          //  rect( bordure + cote*i, bordure+cote*k, 40, 40); 
+          image(clef, bordure + cote*i, bordure+cote*k, 40, 40);
+          
+          
+          
+        }
+      }
+    }
+  }
+  if (debut == 4) {
+    fill(0); 
+    for (int j=0; j<15; j=j+1) { 
+      for (int i=0; i<14; i=i+1) { 
+        if ( map2[i][j]==1) { 
+          rect(bordure + cote*i, bordure+cote*j, 40, 40);
+        }
+        if ( map2[i][j]==3) {
+
+          //rect(bordure + cote*i, bordure+cote*j, 40, 40);
+          image(perso, bordure + cote*i, bordure+cote*j, 40, 40);
+        }
+      }
+    }
+
+    fill(#E50000);
+    for (int k=0; k<15; k=k+1) {
+      for (int i=0; i<14; i=i+1) {
+        if ( map2[i][k]==2) {
+
+          rect( bordure + cote*i, bordure+cote*k, 40, 40); 
+          image(porte, bordure + cote*i, bordure+cote*k, 40, 40);
+        }
+      }
+    }
+
+    for (int k=0; k<15; k=k+1) {
+      for (int i=0; i<14; i=i+1) {
+        if ( map2[i][k]==5) {
+
+          //  rect( bordure + cote*i, bordure+cote*k, 40, 40); 
+          image(clef, bordure + cote*i, bordure+cote*k, 40, 40);
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+  /* fill(#0AFFF1); 
+   for (int j=0; j<15; j=j+1) { 
+   for (int i=0; i<14; i=i+1) { 
+   if ( personnage[i][j]==3) { 
+   rect(bordure + cote*i, bordure+cote*j, 40, 40);
+   image(perso, bordure + cote*i, bordure+cote*i, 40, 40);
+   }
+   }
+   } */
+/*
+  if (debut == 1) {
+    value = 2;
+    image (fin, 0, 0);
+    fill(#5CF0C9);
+    debut=50;
+    //exit();
+  }
+  
+   if ( debut == 50 ){
+   etats = true;
+  while(etats == true) {
+    mot = lireUnTexte ( "Saisir un mot :" );
+   println("RESTART ?");
+   
+ }
+ }
+*/
+}
+
+void mousePressed() {
+   if (value == 0 && mouseX>860 && mouseX<1260 && mouseY>550 && mouseY<700) {
+    etat = 1;
+  }
+  redraw();
+  /*if (value == 2 && mouseX>860 && mouseX<1260 && mouseY>550 && mouseY<700) {
+    etat = 1;
+  }
+  */
+}
+
+
+void keyPressed() {
+  if (debut ==2 ) {
+
+  if (keyPressed) {
+    if (key == 'q' || key == 'Q') {
+      deplacementGauche = 2;
+    }
+  }
+
+  if (keyPressed) {
+    if (key == 'd' || key == 'D') {
+      deplacementDroite = 2;
+    }
+  }
+
+  if (keyPressed) {
+    if (key == 'z' || key == 'Z') {
+      deplacementHaut = 2;
+    }
+  }
+
+  if (keyPressed) {
+    if (key == 's' || key == 'S') {
+      deplacementBas = 2;
+    }
+  }
+  
+  
+  if (debut ==4  ) {
+
+  if (keyPressed) {
+    if (key == 'q' || key == 'Q') {
+      deplacementGauche = 2;
+    }
+  }
+
+  if (keyPressed) {
+    if (key == 'd' || key == 'D') {
+      deplacementDroite = 2;
+    }
+  }
+
+  if (keyPressed) {
+    if (key == 'z' || key == 'Z') {
+      deplacementHaut = 2;
+    }
+  }
+
+  if (keyPressed) {
+    if (key == 's' || key == 'S') {
+      deplacementBas = 2;
+    }
+  }
+  }
+
+  //redraw();
+  if (keyPressed) {
+    if (key == 'e' || key == 'E') {
+     debut =4;
+      
+    }
+  }
+  
+}
+redraw();
+}
